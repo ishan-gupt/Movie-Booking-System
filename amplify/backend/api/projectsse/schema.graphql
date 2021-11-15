@@ -1,0 +1,45 @@
+type User @model 
+{
+  id: ID!
+  name: String!
+  username: String!
+  email: String!
+  address: String!
+  history: [String]
+  upcoming: [String] 
+
+}
+
+type Movie @model
+{
+  id: ID!
+  name: String!
+  ratings: String
+  desc: String
+  imageURL: String
+  venues: [Venue]  @connection (name:"movievenue")
+}
+
+type Venue @model
+{
+  id: ID!
+  slots: [Slot] @connection (name:"locationslot") 
+  name: String!
+  location: String!
+  seats: [Int]
+  movies: Movie  @connection (name:"movievenue")
+}
+type Slot @model
+{
+  id: ID!
+  seats: [Int]
+  time: String!
+  venue: Venue @connection (name: "locationslot")
+}
+
+type Query{
+  getUserByUsername(username: String!) : User
+  getVenueByName(name: String!) : Venue
+  getMovieByName(name: String!) : Movie
+}
+
